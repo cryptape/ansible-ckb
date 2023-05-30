@@ -9,7 +9,7 @@ Restart=no
 RestartSec=2
 User=ckb
 Group=ckb
-ExecStart={{ ckb_workspace }}/ckb run -C {{ ckb_workspace }}
+ExecStart={{ ckb_workspace }}/ckb run -C {{ ckb_workspace }} --indexer
 
 [Install]
 WantedBy=multi-user.target
