@@ -48,6 +48,7 @@
     state: stopped
   tags:
     - ckb_stop
+    - ckb_clean
 
 - name: Restart CKB
   become: true
@@ -79,6 +80,7 @@
     state: stopped
   tags:
     - ckb_miner_stop
+    - ckb_clean
 
 - name: Restart CKB Miner
   become: true
@@ -95,3 +97,28 @@
     state: started
   tags:
     - ckb_miner_start
+
+- name: Clean CKB Env
+  become: true
+  file:
+    path: "{{ ckb_workspace }}"
+    state: absent
+  tags:
+    - ckb_clean
+
+
+- name: Clean CKB Service
+  become: true
+  file:
+    path: "/etc/systemd/system/{{ ckb_service }}.service"
+    state: absent
+  tags:
+    - ckb_clean
+
+- name: Clean CKB miner Service
+  become: true
+  file:
+    path: "/etc/systemd/system/{{ ckb_service }}-miner.service"
+    state: absent
+  tags:
+    - ckb_clean
