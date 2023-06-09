@@ -5,6 +5,14 @@ ckb_database_url: ""
 
 ckb_workspace: /var/lib/ckb
 
+
+### ckb data, Some ckb old data
+
+# ckb_data_local_source : ""
+
+# ckb_data_download_url : ""
+
+
 # CKB node systemd service name
 ckb_service: ckb
 

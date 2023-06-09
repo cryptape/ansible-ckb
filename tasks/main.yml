@@ -12,13 +12,19 @@
   tags:
     - ckb_setup
     - ckb_install
+    - ckb_data_install
     - ckb_database
     - ckb_configure
 
-- include: install.yml
+- include: install_ckb.yml
   become: true
   tags:
     - ckb_install
+
+- include: install_ckb_data.yml
+  become: true
+  tags:
+    - ckb_data_install
 
 - include: configure.yml
   become: true

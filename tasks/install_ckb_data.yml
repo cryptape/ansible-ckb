@@ -1,0 +1,46 @@
+---
+- name: Install CKB Data From Local Source
+  block:
+    - name: Upload CKB Data Tarball From Local
+      copy:
+        force: true
+        src: "{{ ckb_data_local_source }}"
+        dest: "/tmp/{{ ckb_data_local_source | basename }}"
+        group: ckb
+        owner: ckb
+    - name: Remove old CKB data directory
+      file:
+        path: "{{ ckb_data_dir }}"
+        state: absent
+    - name: Un archive CKB Data Tarball
+      become: true
+      unarchive:
+        remote_src: true
+        src: "/tmp/{{ ckb_data_local_source | basename }}"
+        dest: "{{ ckb_data_dir }}"
+        mode: 0777
+  when:
+    - ckb_data_local_source is defined and ckb_data_local_source != ''
+
+- name: Install CKB Data From Remote Source
+  block:
+    - name: Download CKB Tarball From URL
+      become: true
+      get_url:
+        force: true
+        url: "{{ ckb_data_download_url }}"
+        dest: /tmp/
+
+    - name: Remove old CKB data directory
+      file:
+        path: "{{ ckb_data_dir }}"
+        state: absent
+    - name: Un archive CKB Data Tarball
+      become: true
+      unarchive:
+        remote_src: true
+        src: "/tmp/{{ ckb_data_download_url | basename }}"
+        dest: "{{ ckb_data_dir }}"
+        mode: 0777
+  when:
+    - (ckb_data_local_source is not defined or ckb_data_local_source == '') and ckb_data_download_url is defined
