@@ -30,17 +30,18 @@
         force: true
         url: "{{ ckb_data_download_url }}"
         dest: /tmp/
-
+        timeout: 1000
     - name: Remove old CKB data directory
       file:
         path: "{{ ckb_data_dir }}"
         state: absent
     - name: Un archive CKB Data Tarball
-      become: true
-      unarchive:
-        remote_src: true
-        src: "/tmp/{{ ckb_data_download_url | basename }}"
-        dest: "{{ ckb_data_dir }}"
-        mode: 0777
+      environment:
+        tar_path: "/tmp/{{ ckb_data_download_url | basename }}"
+        ckb_data_dir: "{{ ckb_workspace }}"
+      shell:
+        cmd: |
+          tar -xzvf $tar_path -C $ckb_data_dir
+
   when:
     - (ckb_data_local_source is not defined or ckb_data_local_source == '') and ckb_data_download_url is defined

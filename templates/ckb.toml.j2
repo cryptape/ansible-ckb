@@ -145,3 +145,11 @@ args      = "{{ ckb_block_assembler.args      }}"
 hash_type = "{{ ckb_block_assembler.hash_type }}"
 message   = "{{ ckb_block_assembler.message   }}"
 {% endif %}
+
+{% if ckb_prometheus is defined %}
+[metrics.exporter.prometheus]
+target = { type = "prometheus", listen_address = "{{ ckb_prometheus.listen_address | default("0.0.0.0:8100") }}" }
+
+[memory_tracker]
+interval = {{ ckb_prometheus.interval | default("3") }}
+{% endif %}
