@@ -25,12 +25,11 @@
 - name: Install CKB Data From Remote Source
   block:
     - name: Download CKB Tarball From URL
-      become: true
-      get_url:
-        force: true
-        url: "{{ ckb_data_download_url }}"
-        dest: /tmp/
-        timeout: 1000
+      environment:
+        ckb_data_download_url: "{{ ckb_data_download_url }}"
+      shell:
+        cmd: |
+          wget -P /tmp/ $ckb_data_download_url
     - name: Remove old CKB data directory
       file:
         path: "{{ ckb_data_dir }}"
