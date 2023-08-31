@@ -32,6 +32,8 @@
           if [ ! -f /tmp/$(basename {{ ckb_data_download_url }}) ]; then
             wget -P /tmp/ {{ ckb_data_download_url }}
           fi
+      poll: 5
+      async: 3600
 
     - name: Remove old CKB data directory
       file:
@@ -44,6 +46,8 @@
       shell:
         cmd: |
           tar -xzvf $tar_path -C $ckb_data_dir
+      poll: 5
+      async: 3600
 
   when:
     - (ckb_data_local_source is not defined or ckb_data_local_source == '') and ckb_data_download_url is defined
