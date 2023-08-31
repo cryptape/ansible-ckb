@@ -29,7 +29,10 @@
         ckb_data_download_url: "{{ ckb_data_download_url }}"
       shell:
         cmd: |
-          wget -P /tmp/ $ckb_data_download_url
+          if [ ! -f /tmp/$(basename {{ ckb_data_download_url }}) ]; then
+            wget -P /tmp/ {{ ckb_data_download_url }}
+          fi
+
     - name: Remove old CKB data directory
       file:
         path: "{{ ckb_data_dir }}"
