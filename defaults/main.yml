@@ -5,6 +5,7 @@ ckb_database_url: ""
 
 ckb_workspace: /var/lib/ckb
 
+ckb_download_tmp_dir: /tmp
 
 ### ckb data, Some ckb old data
 
