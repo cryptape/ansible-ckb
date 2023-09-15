@@ -32,12 +32,6 @@
 - name: Install CKB From Remote Source
   block:
     - name: Download CKB Tarball From URL
-      become: true
-      get_url:
-        force: true
-        url: "{{ ckb_download_url }}"
-        dest: "{{ ckb_download_tmp_dir }}"
-    - name: Download CKB Tarball From URL
       environment:
         ckb_data_download_url: "{{ ckb_download_url }}"
       shell:
