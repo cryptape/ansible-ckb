@@ -12,7 +12,7 @@
       become: true
       unarchive:
         remote_src: true
-        src: "/tmp/{{ ckb_local_source | basename }}"
+        src: "{{ ckb_download_tmp_dir }}/{{ ckb_local_source | basename }}"
         dest: "{{ ckb_workspace }}"
         mode: 0777
         extra_opts:
@@ -24,7 +24,7 @@
     - name: Unarchive CKB 7z-Tarball
       become: true
       shell: |
-        7z e -y -o'{{ ckb_workspace }}' '/tmp/{{ ckb_local_source | basename }}' '*/ckb'
+        7z e -y -o'{{ ckb_workspace }}' '{{ ckb_download_tmp_dir }}/{{ ckb_local_source | basename }}' '*/ckb'
       when: ckb_local_source.endswith(".7z")
   when:
     - ckb_local_source is defined and ckb_local_source != ''
@@ -36,12 +36,20 @@
       get_url:
         force: true
         url: "{{ ckb_download_url }}"
-        dest: /tmp/
+        dest: "{{ ckb_download_tmp_dir }}"
+    - name: Download CKB Tarball From URL
+      environment:
+        ckb_data_download_url: "{{ ckb_download_url }}"
+      shell:
+        cmd: |
+          if [ ! -f {{ ckb_download_tmp_dir }}/$(basename {{ ckb_download_url }}) ]; then
+            wget -P {{ ckb_download_tmp_dir }}/ {{ ckb_download_url }}
+          fi
     - name: Unarchive CKB Tarball
       become: true
       unarchive:
         remote_src: true
-        src: "/tmp/{{ ckb_download_url | basename }}"
+        src: "{{ ckb_download_tmp_dir }}/{{ ckb_download_url | basename }}"
         dest: "{{ ckb_workspace }}"
         mode: 0777
         extra_opts:
@@ -53,7 +61,7 @@
     - name: Unarchive CKB 7z-Tarball
       become: true
       shell: |
-        7z e -y -o'{{ ckb_workspace }}' '/tmp/{{ ckb_download_url | basename }}' '*/ckb'
+        7z e -y -o'{{ ckb_workspace }}' '{{ ckb_download_tmp_dir }}/{{ ckb_download_url | basename }}' '*/ckb'
       when: ckb_download_url.endswith(".7z")
   when:
     - (ckb_local_source is not defined or ckb_local_source == '') and ckb_download_url is defined

@@ -16,7 +16,7 @@
       become: true
       unarchive:
         remote_src: true
-        src: "/tmp/{{ ckb_data_local_source | basename }}"
+        src: "{{ ckb_download_tmp_dir }}/{{ ckb_data_local_source | basename }}"
         dest: "{{ ckb_data_dir }}"
         mode: 0777
   when:
@@ -29,11 +29,11 @@
         ckb_data_download_url: "{{ ckb_data_download_url }}"
       shell:
         cmd: |
-          if [ ! -f /tmp/$(basename {{ ckb_data_download_url }}) ]; then
-            wget -P /tmp/ {{ ckb_data_download_url }}
+          if [ ! -f {{ ckb_download_tmp_dir }}/$(basename {{ ckb_data_download_url }}) ]; then
+            wget -P {{ ckb_download_tmp_dir }}/ {{ ckb_data_download_url }}
           fi
       poll: 5
-      async: 3600
+      async: 7200
 
     - name: Remove old CKB data directory
       file:
@@ -41,13 +41,13 @@
         state: absent
     - name: Un archive CKB Data Tarball
       environment:
-        tar_path: "/tmp/{{ ckb_data_download_url | basename }}"
+        tar_path: "{{ ckb_download_tmp_dir }}/{{ ckb_data_download_url | basename }}"
         ckb_data_dir: "{{ ckb_workspace }}"
       shell:
         cmd: |
           tar -xzvf $tar_path -C $ckb_data_dir
       poll: 5
-      async: 3600
+      async: 7200
 
   when:
     - (ckb_data_local_source is not defined or ckb_data_local_source == '') and ckb_data_download_url is defined
