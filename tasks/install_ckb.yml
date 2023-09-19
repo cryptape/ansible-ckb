@@ -36,9 +36,10 @@
         ckb_data_download_url: "{{ ckb_download_url }}"
       shell:
         cmd: |
-          if [ ! -f {{ ckb_download_tmp_dir }}/$(basename {{ ckb_download_url }}) ]; then
-            wget -P {{ ckb_download_tmp_dir }}/ {{ ckb_download_url }}
+          if [ -f "{{ ckb_download_tmp_dir }}/$(basename {{ ckb_download_url }})" ]; then
+            rm "{{ ckb_download_tmp_dir }}/$(basename {{ ckb_download_url }})"
           fi
+          wget -P {{ ckb_download_tmp_dir }}/ {{ ckb_download_url }}
     - name: Unarchive CKB Tarball
       become: true
       unarchive:
