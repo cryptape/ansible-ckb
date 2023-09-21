@@ -75,7 +75,14 @@
 - name: Wait For CKB RPC Service Launched
   wait_for:
     port: "{{ ckb_rpc_listen_address | regex_replace(\".*:\", \"\") }}"
+  register: wait_for_result
   timeout: 1200
+  tags:
+    - ckb_restart
+    - ckb_start
+
+- debug:
+    msg: "Wait For CKB RPC Service Launched Time: {{ wait_for_result.elapsed }} seconds"
   tags:
     - ckb_restart
     - ckb_start
