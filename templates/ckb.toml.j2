@@ -81,14 +81,12 @@ reject_ill_transactions = {{ ckb_rpc_reject_ill_transactions | default("true") }
 enable_deprecated_rpc = {{ ckb_rpc_enable_deprecated_rpc | default("false") }}
 
 [tx_pool]
-max_mem_size = {{ ckb_tx_pool_max_mem_size | default("20_000_000") }}
-max_cycles = {{ ckb_tx_pool_max_cycles | default("200_000_000_000") }}
-max_verify_cache_size = {{ ckb_tx_pool_max_verify_cache_size | default("100_000") }}
-max_conflict_cache_size = {{ ckb_tx_pool_max_conflict_cache_size | default("1_000") }}
-max_committed_txs_hash_cache_size = {{ ckb_tx_pool_max_committed_txs_hash_cache_size | default("100_000") }}
+max_tx_pool_size = {{ ckb_tx_max_tx_pool_size | default("180_000_000")}}
 min_fee_rate = {{ ckb_tx_pool_min_fee_rate | default("1_000") }}
+min_rbf_rate = {{ ckb_tx_min_rbf_rate | default("1_500") }}
 max_tx_verify_cycles = {{ ckb_tx_pool_max_tx_verify_cycles | default("70_000_000") }}
 max_ancestors_count = {{ ckb_tx_pool_max_ancestors_count | default("25") }}
+
 
 [store]
 header_cache_size          = {{ ckb_store_header_cache_size          | default("4096")}}
