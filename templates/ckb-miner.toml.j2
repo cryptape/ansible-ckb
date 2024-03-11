@@ -31,17 +31,7 @@ poll_interval = {{ ckb_miner_poll_interval | default("1_000_000_000_000") }}
 {% if ckb_block_assembler_notify is defined %}
 listen = "{{ ckb_block_assembler_notify.url | default("http://127.0.0.1:8888") }}"
 {% endif %}
-
-{% if ckb_miner_workers is defined %}
-    {% for worker in ckb_miner_workers %}
-        [[miner.workers]]
-        worker_type = "{{ worker.worker_type }}"
-        delay_type  = "{{ worker.delay_type  }}"
-        value       =  {{ worker.value       }}
-    {% endfor %}
-{% else %}
-    [[miner.workers]]
-    worker_type = "Dummy"
-    delay_type = "Constant"
-    value = {{ ckb_miner_dummy_value | default(1000) }}
-{% endif %}
+[[miner.workers]]
+worker_type = "Dummy"
+delay_type = "Constant"
+value = {{ ckb_miner_dummy_value | default(1000) }}
