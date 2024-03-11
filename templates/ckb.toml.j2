@@ -144,7 +144,11 @@ code_hash = "{{ ckb_block_assembler.code_hash }}"
 args      = "{{ ckb_block_assembler.args      }}"
 hash_type = "{{ ckb_block_assembler.hash_type }}"
 message   = "{{ ckb_block_assembler.message   }}"
+{% if ckb_block_assembler_notify is defined %}
+notify = ["{{ ckb_block_assembler_notify.url | default("http://127.0.0.1:8888") }}"]
 {% endif %}
+{% endif %}
+
 
 {% if ckb_prometheus is defined %}
 [metrics.exporter.prometheus]
