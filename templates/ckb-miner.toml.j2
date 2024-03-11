@@ -43,5 +43,5 @@ listen = "{{ ckb_block_assembler_notify.url | default("http://127.0.0.1:8888") }
     [[miner.workers]]
     worker_type = "Dummy"
     delay_type = "Constant"
-    value = { ckb_miner_dummy_value | default(1000) }
+    value = {{ ckb_miner_dummy_value | default(1000) }}
 {% endif %}
