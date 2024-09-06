@@ -58,6 +58,8 @@
 
 - name: Restart CKB
   become: true
+  pause:
+    seconds: 5
   service:
     name: "{{ ckb_service }}"
     state: restarted
