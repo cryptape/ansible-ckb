@@ -1,5 +1,5 @@
 ---
-- include: preflight.yml
+- import_tasks: preflight.yml
   tags:
     - ckb_preflight
     - ckb_setup
@@ -7,7 +7,7 @@
     - ckb_database
     - ckb_configure
 
-- include: setup.yml
+- import_tasks: setup.yml
   become: true
   tags:
     - ckb_setup
@@ -16,27 +16,27 @@
     - ckb_database
     - ckb_configure
 
-- include: install_ckb.yml
+- import_tasks: install_ckb.yml
   become: true
   tags:
     - ckb_install
 
-- include: install_ckb_data.yml
+- import_tasks: install_ckb_data.yml
   become: true
   tags:
     - ckb_data_install
 
-- include: configure.yml
+- import_tasks: configure.yml
   become: true
   tags:
     - ckb_configure
 
-- include: database.yml
+- import_tasks: database.yml
   become: true
   tags:
     - ckb_database
 
-- include: status.yml
+- import_tasks: status.yml
   tags:
     - ckb_status
 
